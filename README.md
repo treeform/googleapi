@@ -10,6 +10,8 @@ So far it has:
 * Bigquery
 * Compute
 * Datastore
+* Spreadsheets
+* Documents
 
 Feel free to add new services as they are wrapped. But it might just be easier to use REST Api.
 
