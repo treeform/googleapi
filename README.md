@@ -5,13 +5,15 @@
 
 This is a gowing collection of google APIs for nim.
 
-So far it has:
+So far it has basic support for:
 
 * Bigquery
 * Compute
 * Datastore
 * Spreadsheets
 * Documents
+* Drive
+* Storage
 
 Feel free to add new services as they are wrapped. But it might just be easier to use REST Api.
 
