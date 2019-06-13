@@ -48,7 +48,7 @@ proc insertQueryJob*(
     projectId: string,
     sqlQuery: string,
     cache: bool = true,
-    maxResults: int = 1000000
+    maxResults: int = 1_000_000
   ): Future[string] {.async.} =
   ## starts a bigquery query job
   let body = %*{
