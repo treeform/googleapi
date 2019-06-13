@@ -33,7 +33,7 @@ proc newConnection*(serviceAccountPath: string): Future[Connection] {.async.} =
   return conn
 
 
-proc getAuthToken(conn: Connection): Future[string] {.async.} =
+proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
