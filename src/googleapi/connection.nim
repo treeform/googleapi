@@ -12,7 +12,7 @@ type
     privateKey: string
     scope: string
 
-  GoogleExcpetion* = object of Exception
+  GoogleException* = object of Exception
 
 
 proc loadServiceAccount(
@@ -65,7 +65,7 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
     "https://www.googleapis.com/oauth2/v4/token", postdata).parseJson()
 
   if "access_token" notin dataJson:
-    raise newException(GoogleExcpetion, "Could not get google AuthToken")
+    raise newException(GoogleException, "Could not get google AuthToken")
 
   conn.authToken = dataJson["access_token"].str
   conn.authTokenExpireTime = float64(epochTime() + 60 * 60)
