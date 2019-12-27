@@ -99,7 +99,7 @@ proc insertQueryJobIntoTable*(
   return jsonData["jobReference"]["jobId"].str
 
 
-proc pollQueryJob*(conn: Connection, projectId: string, jobId: string, maxResults: int = 10000000, pageToken: string): Future[JsonNode] {.async.} =
+proc pollQueryJob*(conn: Connection, projectId: string, jobId: string, maxResults: int = 10000000, pageToken: string = ""): Future[JsonNode] {.async.} =
   ## ask google results, if they are not done you will get jobComplete = false
   var url = &"{bqRoot}/projects/" & projectId & "/queries/" & jobId & "?maxResults=" & $maxResults
   if pageToken != "":
