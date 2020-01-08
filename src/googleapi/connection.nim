@@ -37,20 +37,23 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
-  var tok = JWT(
-    header: JOSEHeader(alg: RS256, typ: "JWT"),
-    claims: toClaims(%*{
-    "iss": conn.email,
-    "scope": conn.scope,
-    "aud": "https://www.googleapis.com/oauth2/v4/token",
-    "exp": int(epochTime() + 60 * 60),
-    "iat": int(epochTime())
-  }))
-
-  tok.sign(conn.privateKey)
+  var token = jwt.sign(
+    header = %*{
+      "alg": "RS256", 
+      "typ": "JWT"
+    },
+    claim = %*{
+      "iss": conn.email,
+      "scope": conn.scope,
+      "aud": "https://www.googleapis.com/oauth2/v4/token",
+      "exp": int(epochTime() + 60 * 60),
+      "iat": int(epochTime())    
+    },
+    secret = conn.privateKey
+  )
 
   let postdata = "grant_type=" & encodeUrl(
-    "urn:ietf:params:oauth:grant-type:jwt-bearer") & "&assertion=" & $tok
+    "urn:ietf:params:oauth:grant-type:jwt-bearer") & "&assertion=" & token
 
   proc request(url: string, body: string): string =
     var client = newHttpClient()
