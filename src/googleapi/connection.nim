@@ -1,4 +1,4 @@
-import jwt, json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
+import quickjwt, json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
   streams
 import print
 
@@ -37,7 +37,7 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
-  var token = jwt.sign(
+  var token = quickjwt.sign(
     header = %*{
       "alg": "RS256", 
       "typ": "JWT"
