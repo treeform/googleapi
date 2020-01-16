@@ -8,5 +8,5 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "nim >= 0.19.1"
-requires "https://github.com/treeform/jwt"
+requires "nim >= 1.0.0"
+requires "quickjwt >= 0.1.0"
