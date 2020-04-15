@@ -1,5 +1,5 @@
-import quickjwt, json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
-  streams
+import json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
+  streams, jwt
 import print
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
@@ -37,20 +37,35 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
-  var token = quickjwt.sign(
-    header = %*{
-      "alg": "RS256", 
-      "typ": "JWT"
-    },
-    claim = %*{
-      "iss": conn.email,
-      "scope": conn.scope,
-      "aud": "https://www.googleapis.com/oauth2/v4/token",
-      "exp": int(epochTime() + 60 * 60),
-      "iat": int(epochTime())    
-    },
-    secret = conn.privateKey
-  )
+  # var token = quickjwt.sign(
+  #   header = %*{
+  #     "alg": "RS256",
+  #     "typ": "JWT"
+  #   },
+  #   claim = %*{
+  #     "iss": conn.email,
+  #     "scope": conn.scope,
+  #     "aud": "https://www.googleapis.com/oauth2/v4/token",
+  #     "exp": int(epochTime() + 60 * 60),
+  #     "iat": int(epochTime())
+  #   },
+  #   secret = conn.privateKey
+  # )
+
+  let header = %*{
+    "alg": "RS256",
+    "typ": "JWT"
+  }
+  let claims = %*{
+    "iss": conn.email,
+    "scope": conn.scope,
+    "aud": "https://www.googleapis.com/oauth2/v4/token",
+    "exp": int(epochTime() + 60 * 60),
+    "iat": int(epochTime())
+  }
+  var jwtObj = initJWT(header.toHeader, claims.toClaims)
+  jwtObj.sign(conn.privateKey)
+  var token = $jwtObj
 
   let postdata = "grant_type=" & encodeUrl(
     "urn:ietf:params:oauth:grant-type:jwt-bearer") & "&assertion=" & token
