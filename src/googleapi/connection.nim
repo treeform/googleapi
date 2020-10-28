@@ -1,6 +1,5 @@
 import json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
   streams, jwt
-import print
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
 
