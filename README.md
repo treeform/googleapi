@@ -1,13 +1,10 @@
-
-![Google Cloud Logo](https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png)
-
 ## Google API - for Nim.
 
-This is a gowing collection of google APIs for nim.
+This is a growing collection of google APIs for nim.
 
 So far it has basic support for:
 
-* Bigquery
+* BigQuery
 * Compute
 * Datastore
 * Spreadsheets
@@ -16,7 +13,6 @@ So far it has basic support for:
 * Storage
 
 Feel free to add new services as they are wrapped. But it might just be easier to use REST Api.
-
 
 ## REST API
 

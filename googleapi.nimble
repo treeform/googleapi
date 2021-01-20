@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "treeform"
 description   = "GoogleAPI - Growing collection of google APIs for nim."
 license       = "MIT"
