@@ -1,5 +1,5 @@
 import json, os, strformat, streams, asyncdispatch
-import connection, print
+import connection
 
 const docsRoot = "https://docs.googleapis.com/v1"
 

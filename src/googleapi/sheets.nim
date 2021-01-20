@@ -1,5 +1,5 @@
 import json, os, strformat, streams, asyncdispatch
-import connection, print
+import connection
 
 const sheetsRoot = "https://sheets.googleapis.com/v4"
 

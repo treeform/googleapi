@@ -1,6 +1,6 @@
 
 import json, os, strformat, streams, asyncdispatch, uri, strutils
-import connection, print
+import connection
 
 const driveRoot = "https://www.googleapis.com/drive/v3"
 

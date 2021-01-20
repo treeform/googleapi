@@ -1,5 +1,5 @@
 import json, os, strformat, streams, asyncdispatch
-import connection, print
+import connection
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
 
@@ -162,10 +162,8 @@ proc tableUpdate*(
   var jsonResp = await conn.put(url, table)
   return jsonResp
 
-
-
 when isMainModule:
-
+  import print
   proc main() {.async.} =
     var conn = await newConnection("your_service_account.json")
 

@@ -1,5 +1,5 @@
 import json, os, strformat, streams, asyncdispatch
-import connection, print
+import connection
 
 const cmRoot = "https://www.googleapis.com/compute/v1"
 

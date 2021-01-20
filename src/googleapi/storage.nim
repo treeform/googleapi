@@ -1,5 +1,5 @@
 import json, os, strformat, streams, asyncdispatch, uri, httpclient, mimetypes, ospaths
-import connection, print
+import connection
 
 const storageRoot = "https://www.googleapis.com/storage/v1"
 const uploadRoot = "https://www.googleapis.com/upload/storage/v1"
