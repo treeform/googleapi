@@ -1,9 +1,10 @@
-import json, os, strformat, streams, asyncdispatch
-import connection
+import asyncdispatch, connection, json, os, streams, strformat
 
 const dsRoot = "https://datastore.googleapis.com/v1"
 
-proc runQuery*(conn: Connection, projectId, queryString: string): Future[JsonNode] {.async.} =
+proc runQuery*(
+  conn: Connection, projectId, queryString: string
+): Future[JsonNode] {.async.} =
   let data = %* {
     "gqlQuery": {
       "allowLiterals": true,
@@ -11,7 +12,6 @@ proc runQuery*(conn: Connection, projectId, queryString: string): Future[JsonNod
     }
   }
   return await conn.post(&"{dsRoot}/projects/{projectId}:runQuery", data)
-
 
 when isMainModule:
 

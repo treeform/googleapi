@@ -1,5 +1,4 @@
-import json, times, httpclient, asyncdispatch, cgi, json, os, strformat,
-  streams, jwt
+import asyncdispatch, cgi, httpclient, json, jwt, os, streams, strformat, times
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
 
@@ -13,7 +12,6 @@ type
 
   GoogleException* = object of Exception
 
-
 proc loadServiceAccount(
   conn: Connection,
   serviceAccountPath: string) =
@@ -25,12 +23,10 @@ proc loadServiceAccount(
     "https://www.googleapis.com/auth/logging.write " &
     "https://www.googleapis.com/auth/drive"
 
-
 proc newConnection*(serviceAccountPath: string): Future[Connection] {.async.} =
   var conn = Connection()
   conn.loadServiceAccount(serviceAccountPath)
   return conn
-
 
 proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
@@ -89,7 +85,6 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
 
   return conn.authToken
 
-
 proc get*(conn: Connection, url: string):
     Future[JsonNode] {.async.} =
   ## Generic get request
@@ -102,7 +97,6 @@ proc get*(conn: Connection, url: string):
   let resultStr = await resp.bodyStream.readAll()
   result = parseJson(resultStr)
   client.close()
-
 
 proc post*(conn: Connection, url: string, body: JsonNode):
     Future[JsonNode] {.async.} =
@@ -117,7 +111,6 @@ proc post*(conn: Connection, url: string, body: JsonNode):
   result = parseJson(resultStr)
   client.close()
 
-
 proc patch*(conn: Connection, url: string, body: JsonNode):
     Future[JsonNode] {.async.} =
   ## Generic patch request
@@ -130,7 +123,6 @@ proc patch*(conn: Connection, url: string, body: JsonNode):
   let resultStr = await resp.bodyStream.readAll()
   result = parseJson(resultStr)
   client.close()
-
 
 proc put*(conn: Connection, url: string, body: JsonNode):
   Future[JsonNode] {.async.} =

@@ -1,5 +1,4 @@
-import json, os, strformat, streams, asyncdispatch
-import connection
+import asyncdispatch, connection, json, os, streams, strformat
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
 
@@ -26,22 +25,27 @@ type
     `type`*: string
     creationTime*: string
 
-
-proc getDatasets*(conn: Connection, projectId: string): Future[seq[Dataset]] {.async.} =
+proc getDatasets*(
+  conn: Connection,
+  projectId: string
+): Future[seq[Dataset]] {.async.} =
   let dataJson = await conn.get(&"{bqRoot}/projects/{projectId}/datasets")
   return to(dataJson["datasets"], seq[Dataset])
 
-
-proc getTables*(conn: Connection, projectId: string, datasetId: string): Future[seq[Table]] {.async.} =
+proc getTables*(
+  conn: Connection,
+  projectId: string,
+  datasetId: string
+): Future[seq[Table]] {.async.} =
   let dataJson = await conn.get(&"{bqRoot}/projects/{projectId}/datasets/{datasetId}/tables?maxResults=10000")
   if "tables" notin dataJson:
     return
   return to(dataJson["tables"], seq[Table])
 
-
-proc getTable*(conn: Connection, projectId, datasetId, tableId: string): Future[JsonNode] {.async.} =
+proc getTable*(
+  conn: Connection, projectId, datasetId, tableId: string
+): Future[JsonNode] {.async.} =
   return await conn.get(&"{bqRoot}/projects/{projectId}/datasets/{datasetId}/tables/{tableId}/")
-
 
 proc insertQueryJob*(
     conn: Connection,
@@ -65,7 +69,6 @@ proc insertQueryJob*(
   if "error" in jsonData:
     raise newException(Exception, $jsonData["error"])
   return jsonData["jobReference"]["jobId"].str
-
 
 proc insertQueryJobIntoTable*(
     conn: Connection,
@@ -98,22 +101,26 @@ proc insertQueryJobIntoTable*(
     raise newException(Exception, $jsonData["error"])
   return jsonData["jobReference"]["jobId"].str
 
-
-proc pollQueryJob*(conn: Connection, projectId: string, jobId: string, maxResults: int = 10000000, pageToken: string = ""): Future[JsonNode] {.async.} =
+proc pollQueryJob*(
+  conn: Connection, projectId: string,
+  jobId: string,
+  maxResults: int = 10000000,
+  pageToken: string = ""
+): Future[JsonNode] {.async.} =
   ## ask google results, if they are not done you will get jobComplete = false
-  var url = &"{bqRoot}/projects/" & projectId & "/queries/" & jobId & "?maxResults=" & $maxResults
+  var url = &"{bqRoot}/projects/{projectId}/queries/{jobId}?maxResults={maxResults}"
   if pageToken != "":
     url &= "&pageToken=" & pageToken
   return await conn.get(url)
 
-
-proc cancelQueryJob*(conn: Connection, projectId: string, jobId: string): Future[JsonNode] {.async.} =
+proc cancelQueryJob*(conn: Connection, projectId: string,
+    jobId: string): Future[JsonNode] {.async.} =
   ## ask google results, if they are not done you will get jobComplete = false
   var url = &"{bqRoot}/projects/" & projectId & "/jobs/" & jobId & "/cancel"
   return await conn.post(url, %*{})
 
-
-proc tableInsertAll*(conn: Connection, projectId, datasetId, tableId: string, rows: seq[JsonNode]): Future[JsonNode] {.async.} =
+proc tableInsertAll*(conn: Connection, projectId, datasetId, tableId: string,
+    rows: seq[JsonNode]): Future[JsonNode] {.async.} =
   ## insert data into bigquery table
   assert rows.len > 0
   var newRows: seq[JsonNode]
@@ -130,7 +137,6 @@ proc tableInsertAll*(conn: Connection, projectId, datasetId, tableId: string, ro
   var url = &"{bqRoot}/projects/{projectId}/datasets/{datasetId}/tables/{tableId}/insertAll"
   var jsonResp = await conn.post(url, body)
   return jsonResp
-
 
 proc tableInsert*(
     conn: Connection,
@@ -169,9 +175,9 @@ when isMainModule:
 
     block:
       for ds in await conn.getDatasets("your-project"):
-          print ds.datasetReference.datasetId, ds.location
-          for tb in await conn.getTables("your-project", ds.datasetReference.datasetId):
-            print "    ", tb.tableReference.tableId
+        print ds.datasetReference.datasetId, ds.location
+        for tb in await conn.getTables("your-project", ds.datasetReference.datasetId):
+          print "    ", tb.tableReference.tableId
 
     block:
       let jobId = await conn.insertQueryJob("your-project", "select 1")
