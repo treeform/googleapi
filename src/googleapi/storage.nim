@@ -4,6 +4,41 @@ import asyncdispatch, connection, httpclient, json, mimetypes, os, ospaths,
 const storageRoot = "https://www.googleapis.com/storage/v1"
 const uploadRoot = "https://www.googleapis.com/upload/storage/v1"
 
+type 
+  CacheKind = enum
+    maxAge
+    maxStale
+    minfresh
+    noCache = "no-cache"
+    noStore = "no-store"
+    noTransform = "no-transform"
+    onlyIfCached = "only-if-cached"
+  CacheControl = object
+    case kind: CacheKind
+    of maxAge, maxStale, minfresh:
+      seconds: int
+    else: discard
+
+proc `$`(cache: CacheControl): string = 
+  case cache.kind:
+    of maxAge:
+      "max-age=" & $cache.seconds
+    of maxStale:
+      "max-stale=" & $cache.seconds
+    of minfresh:
+      "min-fresh=" & $cache.seconds
+    else: $cache.kind
+
+proc initMaxAge*(s: int): CacheControl = CacheControl(kind: maxAge, seconds: s)
+proc initMaxStale*(s: int): CacheControl = CacheControl(kind: maxStale, seconds: s)
+proc initMinFresh*(s: int): CacheControl = CacheControl(kind: minfresh, seconds: s)
+
+const 
+  NoCache* = CacheControl(kind: noCache)
+  NoStore* = CacheControl(kind: noStore)
+  NoTransform* = CacheControl(kind: noTransform)
+  OnlyIfCached* = CacheControl(kind: onlyIfCached)
+
 var m = newMimetypes()
 proc extractFileExt(filePath: string): string =
   var (_, _, ext) = splitFile(filePath)
@@ -13,7 +48,8 @@ proc upload*(
     conn: Connection,
     bucketId: string,
     objectId: string,
-    data: string):
+    data: string,
+    cacheControl = initMaxAge(3600)):
     Future[JsonNode] {.async.} =
 
   let url = &"{uploadRoot}/b/{bucketId}/o?uploadType=media&name={encodeUrl(objectId)}"
@@ -22,7 +58,8 @@ proc upload*(
   client.headers = newHttpHeaders({
     "Authorization": "Bearer " & await conn.getAuthToken(),
     "Content-Length": $data.len,
-    "Content-Type": m.getMimetype(objectId.extractFileExt())
+    "Content-Type": m.getMimetype(objectId.extractFileExt()),
+    "Cache-Control": $cacheControl
   })
   let resp = await client.post(url, data)
   let resultStr = await resp.bodyStream.readAll()
