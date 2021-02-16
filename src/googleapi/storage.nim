@@ -29,6 +29,12 @@ proc `$`(cache: CacheControl): string =
       "min-fresh=" & $cache.seconds
     else: $cache.kind
 
+proc `$`(cacheControls: openArray[CacheControl]): string = 
+  for i, cache in cacheControls:
+    result.add $cache
+    if i != cacheControls.high:
+      result.add ","
+
 proc initMaxAge*(s: int): CacheControl = CacheControl(kind: maxAge, seconds: s)
 proc initMaxStale*(s: int): CacheControl = CacheControl(kind: maxStale, seconds: s)
 proc initMinFresh*(s: int): CacheControl = CacheControl(kind: minfresh, seconds: s)
@@ -49,7 +55,7 @@ proc upload*(
     bucketId: string,
     objectId: string,
     data: string,
-    cacheControl = initMaxAge(3600)):
+    cacheControl: varargs[CacheControl] = initMaxAge(3600)):
     Future[JsonNode] {.async.} =
 
   let url = &"{uploadRoot}/b/{bucketId}/o?uploadType=media&name={encodeUrl(objectId)}"
