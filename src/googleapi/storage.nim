@@ -1,5 +1,5 @@
 import asyncdispatch, connection, httpclient, json, mimetypes, os, ospaths,
-    streams, strformat, uri
+    streams, strformat, uri, sugar
 
 const storageRoot = "https://www.googleapis.com/storage/v1"
 const uploadRoot = "https://www.googleapis.com/upload/storage/v1"
@@ -50,27 +50,41 @@ proc extractFileExt(filePath: string): string =
   var (_, _, ext) = splitFile(filePath)
   return ext
 
-proc upload*(
+proc uploadImpl(
     conn: Connection,
     bucketId: string,
     objectId: string,
     data: string,
-    cacheControl: varargs[CacheControl] = initMaxAge(3600)):
+    cacheControl: seq[CacheControl]):
     Future[JsonNode] {.async.} =
 
   let url = &"{uploadRoot}/b/{bucketId}/o?uploadType=media&name={encodeUrl(objectId)}"
-
+  let cc = $cacheControl
   var client = newAsyncHttpClient()
   client.headers = newHttpHeaders({
     "Authorization": "Bearer " & await conn.getAuthToken(),
     "Content-Length": $data.len,
     "Content-Type": m.getMimetype(objectId.extractFileExt()),
-    "Cache-Control": $cacheControl
+    "Cache-Control": cc
   })
   let resp = await client.post(url, data)
   let resultStr = await resp.bodyStream.readAll()
   result = parseJson(resultStr)
   client.close()
+
+template upload*(
+    conn: Connection,
+    bucketId: string,
+    objectId: string,
+    data: string,
+    cacheControl: varargs[CacheControl] = [initMaxAge(3600)]):
+    untyped =
+  var cc = collect(newSeq):
+    for a in cacheControl:
+      a
+
+  uploadImpl(conn, bucketId, objectId, data, cc)
+
 
 proc download*(
     conn: Connection,
