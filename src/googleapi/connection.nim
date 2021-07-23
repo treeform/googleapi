@@ -7,7 +7,7 @@ type
   Connection* = ref object
     authToken: string
     authTokenExpireTime: float64
-    email: string
+    email*: string
     privateKey: string
     scope: string
 
@@ -23,7 +23,8 @@ proc loadServiceAccount(
   # Define needed scopes
   conn.scope = "https://www.googleapis.com/auth/cloud-platform " &
     "https://www.googleapis.com/auth/logging.write " &
-    "https://www.googleapis.com/auth/drive"
+    "https://www.googleapis.com/auth/drive " &
+    "https://www.googleapis.com/auth/datastore"
 
 
 proc newConnection*(serviceAccountPath: string): Future[Connection] {.async.} =

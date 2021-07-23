@@ -3,7 +3,7 @@ import connection, print
 
 const dsRoot = "https://datastore.googleapis.com/v1"
 
-proc runQuery*(conn: Connection, projectId, queryString: string): Future[JsonNode] {.async.} =
+proc gqlQuery*(conn: Connection, projectId, queryString: string): Future[JsonNode] {.async.} =
   let data = %* {
     "gqlQuery": {
       "allowLiterals": true,
