@@ -1,8 +1,6 @@
-import json, os, strformat, streams, asyncdispatch
-import connection, print
+import asyncdispatch, connection, json, os, streams, strformat
 
 const docsRoot = "https://docs.googleapis.com/v1"
-
 
 proc getDocument*(
     conn: Connection,
@@ -12,7 +10,6 @@ proc getDocument*(
   return await conn.get(
     &"{docsRoot}/documents/{documentId}"
   )
-
 
 when isMainModule:
 

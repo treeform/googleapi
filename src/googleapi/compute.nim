@@ -1,11 +1,11 @@
-import json, os, strformat, streams, asyncdispatch
-import connection, print
+import asyncdispatch, connection, json, os, streams, strformat
 
 const cmRoot = "https://www.googleapis.com/compute/v1"
 
-proc instancesList*(conn: Connection, projectId, zone: string): Future[JsonNode] {.async.} =
+proc instancesList*(
+  conn: Connection, projectId, zone: string
+): Future[JsonNode] {.async.} =
   return await conn.get(&"{cmRoot}/projects/{projectId}/zones/{zone}/instances")
-
 
 when isMainModule:
 

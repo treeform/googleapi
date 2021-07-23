@@ -1,15 +1,13 @@
-import json, os, strformat, streams, asyncdispatch, uri, httpclient, mimetypes, ospaths
-import connection, print
+import asyncdispatch, connection, httpclient, json, mimetypes, os, ospaths,
+    streams, strformat, uri
 
 const storageRoot = "https://www.googleapis.com/storage/v1"
 const uploadRoot = "https://www.googleapis.com/upload/storage/v1"
-
 
 var m = newMimetypes()
 proc extractFileExt(filePath: string): string =
   var (_, _, ext) = splitFile(filePath)
   return ext
-
 
 proc upload*(
     conn: Connection,
@@ -31,7 +29,6 @@ proc upload*(
   result = parseJson(resultStr)
   client.close()
 
-
 proc download*(
     conn: Connection,
     bucketId: string,
@@ -45,7 +42,6 @@ proc download*(
   })
   let resp = await client.get(url)
   result = await resp.bodyStream.readAll()
-
 
 proc getMeta*(
     conn: Connection,
@@ -62,7 +58,6 @@ proc list*(
     Future[JsonNode] {.async.} =
   return await conn.get(&"{storageRoot}/b/{bucketId}/o?prefix={encodeUrl(prefix)}")
 
-
 when isMainModule:
 
   proc main() {.async.} =
@@ -73,6 +68,5 @@ when isMainModule:
     var err = conn.upload("your_bucket", "path/key/to/object.txt", data)
     var data2 = await conn.download("your_bucket", "path/key/to/object.txt")
     var meta = await conn.getMeta("your_bucket", "path/key/to/object.txt")
-
 
   waitFor main()

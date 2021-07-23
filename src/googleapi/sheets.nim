@@ -1,17 +1,15 @@
-import json, os, strformat, streams, asyncdispatch
-import connection, print
+import asyncdispatch, connection, json, os, streams, strformat
 
 const sheetsRoot = "https://sheets.googleapis.com/v4"
-
 
 proc getSpreadsheet*(
     conn: Connection,
     spreadsheetId: string
   ): Future[JsonNode] {.async.} =
 
-    return await conn.get(
+  return await conn.get(
     &"{sheetsRoot}/spreadsheets/{spreadsheetId}"
-    )
+  )
 
 proc getValues*(
     conn: Connection,
@@ -19,9 +17,9 @@ proc getValues*(
     valueRange: string
   ): Future[JsonNode] {.async.} =
 
-    return await conn.get(
+  return await conn.get(
     &"{sheetsRoot}/spreadsheets/{spreadsheetId}/values/{valueRange}"
-    )
+  )
 
 proc setValues*(
     conn: Connection,
@@ -30,19 +28,19 @@ proc setValues*(
     data: JsonNode
   ): Future[JsonNode] {.async.} =
 
-    return await conn.put(
+  return await conn.put(
     &"{sheetsRoot}/spreadsheets/{spreadsheetId}/values/{valueRange}?valueInputOption=USER_ENTERED",
     data
-    )
+  )
 
 when isMainModule:
 
-    proc main() {.async.} =
+  proc main() {.async.} =
 
-        var conn = waitFor newConnection("your_service_account.json")
+    var conn = waitFor newConnection("your_service_account.json")
 
-        let spreadsheetId = "... get this value from the sheet url ..."
-        var spreadsheetJson = await conn.getSpreadsheet(spreadsheetId)
-        echo spreadsheetJson
+    let spreadsheetId = "... get this value from the sheet url ..."
+    var spreadsheetJson = await conn.getSpreadsheet(spreadsheetId)
+    echo spreadsheetJson
 
-    waitFor main()
+  waitFor main()
