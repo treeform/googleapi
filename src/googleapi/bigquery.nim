@@ -52,6 +52,7 @@ proc insertQueryJob*(
     projectId: string,
     sqlQuery: string,
     cache: bool = true,
+    useLegacySql: bool = false,
     maxResults: int = 10_000_000
   ): Future[string] {.async.} =
   ## starts a bigquery query job
@@ -60,7 +61,8 @@ proc insertQueryJob*(
       "query": {
         "query": sqlQuery,
         "useQueryCache": cache,
-        "maxResults": maxResults
+        "maxResults": maxResults,
+        "useLegacySql": useLegacySql
       }
     }
   }
