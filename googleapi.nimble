@@ -1,7 +1,7 @@
 # Package
 
 version       = "0.1.2"
-author        = "treeform"
+author        = "Andre von Houck"
 description   = "GoogleAPI - Growing collection of google APIs for nim."
 license       = "MIT"
 srcDir        = "src"

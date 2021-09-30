@@ -1,5 +1,13 @@
 ## Google API - for Nim.
 
+`nimble install googleapi`
+
+![Github Actions](https://github.com/treeform/googleapi/workflows/Github%20Actions/badge.svg)
+
+[API reference](https://nimdocs.com/treeform/googleapi)
+
+## About
+
 This is a growing collection of google APIs for nim.
 
 So far it has basic support for:
