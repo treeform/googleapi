@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.2"
+version       = "0.1.3"
 author        = "Andre von Houck"
 description   = "GoogleAPI - Growing collection of google APIs for nim."
 license       = "MIT"
