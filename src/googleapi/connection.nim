@@ -14,19 +14,35 @@ type
 
 proc loadServiceAccount(
   conn: Connection,
-  serviceAccountPath: string) =
-  let serviceAccount = parseJson(readFile(serviceAccountPath))
-  conn.email = serviceAccount["client_email"].getStr()
-  conn.privateKey = serviceAccount["private_key"].getStr()
+  clientEmail: string,
+  privateKey: string,
+) =
+  conn.email = clientEmail
+  conn.privateKey = privateKey
   # Define needed scopes
   conn.scope = "https://www.googleapis.com/auth/cloud-platform " &
     "https://www.googleapis.com/auth/logging.write " &
     "https://www.googleapis.com/auth/drive " &
     "https://www.googleapis.com/auth/datastore"
 
+proc loadServiceAccount(
+  conn: Connection,
+  serviceAccountPath: string
+) =
+  let serviceAccount = parseJson(readFile(serviceAccountPath))
+  conn.loadServiceAccount(
+    serviceAccount["client_email"].getStr(),
+    serviceAccount["private_key"].getStr()
+  )
+
 proc newConnection*(serviceAccountPath: string): Future[Connection] {.async.} =
   var conn = Connection()
   conn.loadServiceAccount(serviceAccountPath)
+  return conn
+
+proc newConnection*(clientEmail, privateKey: string): Future[Connection] {.async.} =
+  var conn = Connection()
+  conn.loadServiceAccount(clientEmail, privateKey)
   return conn
 
 proc getAuthToken*(conn: Connection): Future[string] {.async.} =
