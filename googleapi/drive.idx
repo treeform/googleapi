@@ -1,0 +1,2 @@
+list	googleapi/drive.html#list,Connection,string	drive: list(conn: Connection; q: string): Future[JsonNode]	
+list	googleapi/drive.html#list,Connection,string,seq[string]	drive: list(conn: Connection; q: string; fields: seq[string]): Future[JsonNode]	

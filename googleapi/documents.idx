@@ -1,0 +1,1 @@
+getDocument	googleapi/documents.html#getDocument,Connection,string	documents: getDocument(conn: Connection; documentId: string): Future[JsonNode]	

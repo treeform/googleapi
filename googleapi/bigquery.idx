@@ -1,0 +1,15 @@
+DatasetReference	googleapi/bigquery.html#DatasetReference	bigquery: DatasetReference	
+Dataset	googleapi/bigquery.html#Dataset	bigquery: Dataset	
+TableReference	googleapi/bigquery.html#TableReference	bigquery: TableReference	
+Table	googleapi/bigquery.html#Table	bigquery: Table	
+getDatasets	googleapi/bigquery.html#getDatasets,Connection,string	bigquery: getDatasets(conn: Connection; projectId: string): Future[seq[Dataset]]	
+getTables	googleapi/bigquery.html#getTables,Connection,string,string	bigquery: getTables(conn: Connection; projectId: string; datasetId: string): Future[\n    seq[Table]]	
+getTable	googleapi/bigquery.html#getTable,Connection,string,string,string	bigquery: getTable(conn: Connection; projectId, datasetId, tableId: string): Future[\n    JsonNode]	
+insertQueryJob	googleapi/bigquery.html#insertQueryJob,Connection,string,string,bool,bool,int	bigquery: insertQueryJob(conn: Connection; projectId: string; sqlQuery: string;\n               cache: bool = true; useLegacySql: bool = false;\n               maxResults: int = 10000000): Future[string]	
+insertQueryJobIntoTable	googleapi/bigquery.html#insertQueryJobIntoTable,Connection,string,string,string,string,string	bigquery: insertQueryJobIntoTable(conn: Connection; projectId: string; sqlQuery: string;\n                        toProjectId: string; toDatasetId: string;\n                        toTableId: string; overwrite = false): Future[string]	
+pollQueryJob	googleapi/bigquery.html#pollQueryJob,Connection,string,string,int,string	bigquery: pollQueryJob(conn: Connection; projectId: string; jobId: string;\n             maxResults: int = 10000000; pageToken: string = &quot;&quot;): Future[\n    JsonNode]	
+cancelQueryJob	googleapi/bigquery.html#cancelQueryJob,Connection,string,string	bigquery: cancelQueryJob(conn: Connection; projectId: string; jobId: string): Future[\n    JsonNode]	
+tableInsertAll	googleapi/bigquery.html#tableInsertAll,Connection,string,string,string,seq[JsonNode]	bigquery: tableInsertAll(conn: Connection; projectId, datasetId, tableId: string;\n               rows: seq[JsonNode]): Future[JsonNode]	
+tableInsert	googleapi/bigquery.html#tableInsert,Connection,string,string,JsonNode	bigquery: tableInsert(conn: Connection; projectId, datasetId: string; table: JsonNode): Future[\n    JsonNode]	
+tablePatch	googleapi/bigquery.html#tablePatch,Connection,string,string,string,JsonNode	bigquery: tablePatch(conn: Connection; projectId, datasetId, tableId: string;\n           table: JsonNode): Future[JsonNode]	
+tableUpdate	googleapi/bigquery.html#tableUpdate,Connection,string,string,string,JsonNode	bigquery: tableUpdate(conn: Connection; projectId, datasetId, tableId: string;\n            table: JsonNode): Future[JsonNode]	

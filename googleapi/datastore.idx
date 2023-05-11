@@ -1,0 +1,1 @@
+runQuery	googleapi/datastore.html#runQuery,Connection,string,string	datastore: runQuery(conn: Connection; projectId, queryString: string): Future[JsonNode]	

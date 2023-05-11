@@ -1,0 +1,9 @@
+Connection	googleapi/connection.html#Connection	connection: Connection	
+GoogleException	googleapi/connection.html#GoogleException	connection: GoogleException	
+newConnection	googleapi/connection.html#newConnection,string	connection: newConnection(serviceAccountPath: string): Future[Connection]	
+newConnection	googleapi/connection.html#newConnection,string,string	connection: newConnection(clientEmail, privateKey: string): Future[Connection]	
+getAuthToken	googleapi/connection.html#getAuthToken,Connection	connection: getAuthToken(conn: Connection): Future[string]	
+get	googleapi/connection.html#get,Connection,string	connection: get(conn: Connection; url: string): Future[JsonNode]	
+post	googleapi/connection.html#post,Connection,string,JsonNode	connection: post(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	
+patch	googleapi/connection.html#patch,Connection,string,JsonNode	connection: patch(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	
+put	googleapi/connection.html#put,Connection,string,JsonNode	connection: put(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	

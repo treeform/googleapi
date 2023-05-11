@@ -1,0 +1,3 @@
+getSpreadsheet	googleapi/sheets.html#getSpreadsheet,Connection,string	sheets: getSpreadsheet(conn: Connection; spreadsheetId: string): Future[JsonNode]	
+getValues	googleapi/sheets.html#getValues,Connection,string,string	sheets: getValues(conn: Connection; spreadsheetId, valueRange: string): Future[JsonNode]	
+setValues	googleapi/sheets.html#setValues,Connection,string,string,JsonNode	sheets: setValues(conn: Connection; spreadsheetId, valueRange: string; data: JsonNode): Future[\n    JsonNode]	

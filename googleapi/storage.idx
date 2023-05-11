@@ -1,0 +1,4 @@
+upload	googleapi/storage.html#upload,Connection,string,string,string	storage: upload(conn: Connection; bucketId: string; objectId: string; data: string): Future[\n    JsonNode]	
+download	googleapi/storage.html#download,Connection,string,string	storage: download(conn: Connection; bucketId: string; objectId: string): Future[string]	
+getMeta	googleapi/storage.html#getMeta,Connection,string,string	storage: getMeta(conn: Connection; bucketId: string; objectId: string): Future[JsonNode]	
+list	googleapi/storage.html#list,Connection,string,string	storage: list(conn: Connection; bucketId: string; prefix: string): Future[JsonNode]	
