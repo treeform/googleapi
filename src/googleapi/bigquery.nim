@@ -160,6 +160,15 @@ proc tablePatch*(
   var jsonResp = await conn.patch(url, table)
   return jsonResp
 
+proc tableDelete*(
+    conn: Connection,
+    projectId, datasetId, tableId: string
+  ): Future[JsonNode] {.async.} =
+  ## Overwrites a table potentially deleting all data.
+  var url = &"{bqRoot}/projects/{projectId}/datasets/{datasetId}/tables/{tableId}"
+  var jsonResp = await conn.delete(url)
+  return jsonResp
+
 proc tableUpdate*(
     conn: Connection,
     projectId, datasetId, tableId: string,

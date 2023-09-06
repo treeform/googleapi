@@ -49,6 +49,8 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
+  let now = epochTime()
+
   # var token = quickjwt.sign(
   #   header = %*{
   #     "alg": "RS256",
@@ -78,6 +80,22 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   var jwtObj = initJWT(header.toHeader, claims.toClaims)
   jwtObj.sign(conn.privateKey)
   var token = $jwtObj
+
+  # var token = signJwt(
+  #   header = %*{
+  #     "alg": "RS256",
+  #     "typ": "JWT"
+  #   },
+  #   claims = %*{
+  #     "iss": conn.email,
+  #     "scope": conn.scope,
+  #     "aud": "https://www.googleapis.com/oauth2/v4/token",
+  #     "exp": int(now + 60 * 60),
+  #     "iat": int(now)
+  #   },
+  #   secret = conn.privateKey
+  # )
+  # echo "key took: ", epochTime() - now
 
   let postdata = "grant_type=" & encodeUrl(
     "urn:ietf:params:oauth:grant-type:jwt-bearer") & "&assertion=" & token
@@ -150,6 +168,19 @@ proc put*(conn: Connection, url: string, body: JsonNode):
     "Content-Type": "application/json"
   })
   let resp = await client.request(url, httpMethod = HttpPut, $body)
+  let resultStr = await resp.bodyStream.readAll()
+  result = parseJson(resultStr)
+  client.close()
+
+proc delete*(conn: Connection, url: string):
+  Future[JsonNode] {.async.} =
+  ## Generic patch request
+  var client = newAsyncHttpClient()
+  client.headers = newHttpHeaders({
+    "Authorization": "Bearer " & await conn.getAuthToken(),
+    "Content-Type": "application/json"
+  })
+  let resp = await client.request(url, httpMethod = HttpDelete)
   let resultStr = await resp.bodyStream.readAll()
   result = parseJson(resultStr)
   client.close()
