@@ -121,6 +121,12 @@ proc cancelQueryJob*(conn: Connection, projectId: string,
   var url = &"{bqRoot}/projects/" & projectId & "/jobs/" & jobId & "/cancel"
   return await conn.post(url, %*{})
 
+proc getJob*(
+  conn: Connection, projectId, jobId: string
+): Future[JsonNode] {.async.} =
+  ## Gets the job information
+  return await conn.get(&"{bqRoot}/projects/{projectId}/jobs/{jobId}")
+
 proc tableInsertAll*(conn: Connection, projectId, datasetId, tableId: string,
     rows: seq[JsonNode]): Future[JsonNode] {.async.} =
   ## insert data into bigquery table
