@@ -4,7 +4,7 @@
 
 ![Github Actions](https://github.com/treeform/googleapi/workflows/Github%20Actions/badge.svg)
 
-[API reference](https://nimdocs.com/treeform/googleapi)
+[API reference](https://treeform.github.io/googleapi)
 
 ## About
 
