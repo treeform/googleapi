@@ -1,2 +1,4 @@
-list	googleapi/drive.html#list,Connection,string	drive: list(conn: Connection; q: string): Future[JsonNode]	
-list	googleapi/drive.html#list,Connection,string,seq[string]	drive: list(conn: Connection; q: string; fields: seq[string]): Future[JsonNode]	
+nimTitle	drive	googleapi/drive.html	module src/googleapi/drive		0
+nim	list	googleapi/drive.html#list,Connection,string	proc list(conn: Connection; q: string): Future[JsonNode]		6
+nim	list	googleapi/drive.html#list,Connection,string,seq[string]	proc list(conn: Connection; q: string; fields: seq[string]): Future[JsonNode]		12
+nimgrp	list	googleapi/drive.html#list-procs-all	proc		6

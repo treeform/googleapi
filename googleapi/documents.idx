@@ -1,1 +1,2 @@
-getDocument	googleapi/documents.html#getDocument,Connection,string	documents: getDocument(conn: Connection; documentId: string): Future[JsonNode]	
+nimTitle	documents	googleapi/documents.html	module src/googleapi/documents		0
+nim	getDocument	googleapi/documents.html#getDocument,Connection,string	proc getDocument(conn: Connection; documentId: string): Future[JsonNode]		8

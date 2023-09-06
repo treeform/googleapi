@@ -1,1 +1,2 @@
-runQuery	googleapi/datastore.html#runQuery,Connection,string,string	datastore: runQuery(conn: Connection; projectId, queryString: string): Future[JsonNode]	
+nimTitle	datastore	googleapi/datastore.html	module src/googleapi/datastore		0
+nim	runQuery	googleapi/datastore.html#runQuery,Connection,string,string	proc runQuery(conn: Connection; projectId, queryString: string): Future[JsonNode]		7

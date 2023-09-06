@@ -1,4 +1,5 @@
-upload	googleapi/storage.html#upload,Connection,string,string,string	storage: upload(conn: Connection; bucketId: string; objectId: string; data: string): Future[\n    JsonNode]	
-download	googleapi/storage.html#download,Connection,string,string	storage: download(conn: Connection; bucketId: string; objectId: string): Future[string]	
-getMeta	googleapi/storage.html#getMeta,Connection,string,string	storage: getMeta(conn: Connection; bucketId: string; objectId: string): Future[JsonNode]	
-list	googleapi/storage.html#list,Connection,string,string	storage: list(conn: Connection; bucketId: string; prefix: string): Future[JsonNode]	
+nimTitle	storage	googleapi/storage.html	module src/googleapi/storage		0
+nim	upload	googleapi/storage.html#upload,Connection,string,string,string	proc upload(conn: Connection; bucketId: string; objectId: string; data: string): Future[\n    JsonNode]		17
+nim	download	googleapi/storage.html#download,Connection,string,string	proc download(conn: Connection; bucketId: string; objectId: string): Future[string]		36
+nim	getMeta	googleapi/storage.html#getMeta,Connection,string,string	proc getMeta(conn: Connection; bucketId: string; objectId: string): Future[JsonNode]		50
+nim	list	googleapi/storage.html#list,Connection,string,string	proc list(conn: Connection; bucketId: string; prefix: string): Future[JsonNode]		58

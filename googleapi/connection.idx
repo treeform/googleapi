@@ -1,9 +1,12 @@
-Connection	googleapi/connection.html#Connection	connection: Connection	
-GoogleException	googleapi/connection.html#GoogleException	connection: GoogleException	
-newConnection	googleapi/connection.html#newConnection,string	connection: newConnection(serviceAccountPath: string): Future[Connection]	
-newConnection	googleapi/connection.html#newConnection,string,string	connection: newConnection(clientEmail, privateKey: string): Future[Connection]	
-getAuthToken	googleapi/connection.html#getAuthToken,Connection	connection: getAuthToken(conn: Connection): Future[string]	
-get	googleapi/connection.html#get,Connection,string	connection: get(conn: Connection; url: string): Future[JsonNode]	
-post	googleapi/connection.html#post,Connection,string,JsonNode	connection: post(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	
-patch	googleapi/connection.html#patch,Connection,string,JsonNode	connection: patch(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	
-put	googleapi/connection.html#put,Connection,string,JsonNode	connection: put(conn: Connection; url: string; body: JsonNode): Future[JsonNode]	
+nimTitle	connection	googleapi/connection.html	module src/googleapi/connection		0
+nim	Connection	googleapi/connection.html#Connection	type Connection		6
+nim	GoogleException	googleapi/connection.html#GoogleException	object GoogleException		13
+nim	newConnection	googleapi/connection.html#newConnection,string	proc newConnection(serviceAccountPath: string): Future[Connection]		38
+nim	newConnection	googleapi/connection.html#newConnection,string,string	proc newConnection(clientEmail, privateKey: string): Future[Connection]		43
+nim	getAuthToken	googleapi/connection.html#getAuthToken,Connection	proc getAuthToken(conn: Connection): Future[string]		48
+nim	get	googleapi/connection.html#get,Connection,string	proc get(conn: Connection; url: string): Future[JsonNode]		124
+nim	post	googleapi/connection.html#post,Connection,string,JsonNode	proc post(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		137
+nim	patch	googleapi/connection.html#patch,Connection,string,JsonNode	proc patch(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		150
+nim	put	googleapi/connection.html#put,Connection,string,JsonNode	proc put(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		163
+nim	delete	googleapi/connection.html#delete,Connection,string	proc delete(conn: Connection; url: string): Future[JsonNode]		176
+nimgrp	newconnection	googleapi/connection.html#newConnection-procs-all	proc		38

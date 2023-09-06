@@ -1,3 +1,4 @@
-getSpreadsheet	googleapi/sheets.html#getSpreadsheet,Connection,string	sheets: getSpreadsheet(conn: Connection; spreadsheetId: string): Future[JsonNode]	
-getValues	googleapi/sheets.html#getValues,Connection,string,string	sheets: getValues(conn: Connection; spreadsheetId, valueRange: string): Future[JsonNode]	
-setValues	googleapi/sheets.html#setValues,Connection,string,string,JsonNode	sheets: setValues(conn: Connection; spreadsheetId, valueRange: string; data: JsonNode): Future[\n    JsonNode]	
+nimTitle	sheets	googleapi/sheets.html	module src/googleapi/sheets		0
+nim	getSpreadsheet	googleapi/sheets.html#getSpreadsheet,Connection,string	proc getSpreadsheet(conn: Connection; spreadsheetId: string): Future[JsonNode]		8
+nim	getValues	googleapi/sheets.html#getValues,Connection,string,string	proc getValues(conn: Connection; spreadsheetId, valueRange: string): Future[JsonNode]		18
+nim	setValues	googleapi/sheets.html#setValues,Connection,string,string,JsonNode	proc setValues(conn: Connection; spreadsheetId, valueRange: string; data: JsonNode): Future[\n    JsonNode]		29

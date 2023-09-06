@@ -1,1 +1,2 @@
-instancesList	googleapi/compute.html#instancesList,Connection,string,string	compute: instancesList(conn: Connection; projectId, zone: string): Future[JsonNode]	
+nimTitle	compute	googleapi/compute.html	module src/googleapi/compute		0
+nim	instancesList	googleapi/compute.html#instancesList,Connection,string,string	proc instancesList(conn: Connection; projectId, zone: string): Future[JsonNode]		7
