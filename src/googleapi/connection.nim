@@ -1,4 +1,9 @@
-import asyncdispatch, cgi, httpclient, json, jwt, os, streams, strformat, times
+import asyncdispatch, cgi, httpclient, json, os, streams, strformat, times
+
+when defined(useQuickJwt):
+  import quickjwt
+else:
+  import jwt
 
 const bqRoot = "https://www.googleapis.com/bigquery/v2"
 
@@ -49,37 +54,36 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
-  let now = epochTime()
-
-  # var token = quickjwt.sign(
-  #   header = %*{
-  #     "alg": "RS256",
-  #     "typ": "JWT"
-  #   },
-  #   claim = %*{
-  #     "iss": conn.email,
-  #     "scope": conn.scope,
-  #     "aud": "https://www.googleapis.com/oauth2/v4/token",
-  #     "exp": int(epochTime() + 60 * 60),
-  #     "iat": int(epochTime())
-  #   },
-  #   secret = conn.privateKey
-  # )
-
-  let header = %*{
-    "alg": "RS256",
-    "typ": "JWT"
-  }
-  let claims = %*{
-    "iss": conn.email,
-    "scope": conn.scope,
-    "aud": "https://www.googleapis.com/oauth2/v4/token",
-    "exp": int(epochTime() + 60 * 60),
-    "iat": int(epochTime())
-  }
-  var jwtObj = initJWT(header.toHeader, claims.toClaims)
-  jwtObj.sign(conn.privateKey)
-  var token = $jwtObj
+  when defined(useQuickJwt):
+    var token = quickjwt.sign(
+      header = %*{
+        "alg": "RS256",
+        "typ": "JWT"
+      },
+      claim = %*{
+        "iss": conn.email,
+        "scope": conn.scope,
+        "aud": "https://www.googleapis.com/oauth2/v4/token",
+        "exp": int(epochTime() + 60 * 60),
+        "iat": int(epochTime())
+      },
+      secret = conn.privateKey
+    )
+  else:
+    let header = %*{
+      "alg": "RS256",
+      "typ": "JWT"
+    }
+    let claims = %*{
+      "iss": conn.email,
+      "scope": conn.scope,
+      "aud": "https://www.googleapis.com/oauth2/v4/token",
+      "exp": int(epochTime() + 60 * 60),
+      "iat": int(epochTime())
+    }
+    var jwtObj = initJWT(header.toHeader, claims.toClaims)
+    jwtObj.sign(conn.privateKey)
+    var token = $jwtObj
 
   # var token = signJwt(
   #   header = %*{
