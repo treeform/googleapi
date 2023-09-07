@@ -22,6 +22,12 @@ So far it has basic support for:
 
 Feel free to add new services as they are wrapped. But it might just be easier to use REST Api.
 
+## Different jwt backends:
+
+* default: https://github.com/yglukhov/nim-jwt (takes really long to compile)
+* -d:googleApiUseQuickJwt `quickjwt`: https://github.com/treeform/quickjwt (segfaults with wrong libcrypto setup)
+* -d:googleApiUseJwtea `jwtea`: https://github.com/guzba/jwtea (pure nim but can take a second to compute)
+
 ## REST API
 
 But you can always access Google API through REST. For example find the REST documniation you want like:

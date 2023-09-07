@@ -1,7 +1,9 @@
 import asyncdispatch, cgi, httpclient, json, os, streams, strformat, times
 
-when defined(useQuickJwt):
+when defined(googleApiUseQuickJwt):
   import quickjwt
+elif defined(googleApiUseJwtea):
+  import jwtea
 else:
   import jwt
 
@@ -54,13 +56,28 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
   if conn.authTokenExpireTime > epochTime():
     return conn.authToken
 
-  when defined(useQuickJwt):
+  when defined(googleApiUseQuickJwt):
     var token = quickjwt.sign(
       header = %*{
         "alg": "RS256",
         "typ": "JWT"
       },
       claim = %*{
+        "iss": conn.email,
+        "scope": conn.scope,
+        "aud": "https://www.googleapis.com/oauth2/v4/token",
+        "exp": int(epochTime() + 60 * 60),
+        "iat": int(epochTime())
+      },
+      secret = conn.privateKey
+    )
+  elif defined(googleApiUseJwtea):
+    var token = signJwt(
+      header = %*{
+        "alg": "RS256",
+        "typ": "JWT"
+      },
+      claims = %*{
         "iss": conn.email,
         "scope": conn.scope,
         "aud": "https://www.googleapis.com/oauth2/v4/token",
@@ -84,22 +101,6 @@ proc getAuthToken*(conn: Connection): Future[string] {.async.} =
     var jwtObj = initJWT(header.toHeader, claims.toClaims)
     jwtObj.sign(conn.privateKey)
     var token = $jwtObj
-
-  # var token = signJwt(
-  #   header = %*{
-  #     "alg": "RS256",
-  #     "typ": "JWT"
-  #   },
-  #   claims = %*{
-  #     "iss": conn.email,
-  #     "scope": conn.scope,
-  #     "aud": "https://www.googleapis.com/oauth2/v4/token",
-  #     "exp": int(now + 60 * 60),
-  #     "iat": int(now)
-  #   },
-  #   secret = conn.privateKey
-  # )
-  # echo "key took: ", epochTime() - now
 
   let postdata = "grant_type=" & encodeUrl(
     "urn:ietf:params:oauth:grant-type:jwt-bearer") & "&assertion=" & token
