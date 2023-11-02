@@ -53,7 +53,8 @@ proc newConnection*(clientEmail, privateKey: string): Future[Connection] {.async
   return conn
 
 proc getAuthToken*(conn: Connection): Future[string] {.async.} =
-  if conn.authTokenExpireTime > epochTime():
+  ## add a buffer of 5 minutes for how long the token is good for
+  if conn.authTokenExpireTime > epochTime() + (5 * 60):
     return conn.authToken
 
   when defined(googleApiUseQuickJwt):
