@@ -4,9 +4,9 @@ nim	GoogleException	googleapi/connection.html#GoogleException	object GoogleExcep
 nim	newConnection	googleapi/connection.html#newConnection,string	proc newConnection(serviceAccountPath: string): Future[Connection]		45
 nim	newConnection	googleapi/connection.html#newConnection,string,string	proc newConnection(clientEmail, privateKey: string): Future[Connection]		50
 nim	getAuthToken	googleapi/connection.html#getAuthToken,Connection	proc getAuthToken(conn: Connection): Future[string]		55
-nim	get	googleapi/connection.html#get,Connection,string	proc get(conn: Connection; url: string): Future[JsonNode]		129
-nim	post	googleapi/connection.html#post,Connection,string,JsonNode	proc post(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		142
-nim	patch	googleapi/connection.html#patch,Connection,string,JsonNode	proc patch(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		155
-nim	put	googleapi/connection.html#put,Connection,string,JsonNode	proc put(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		168
-nim	delete	googleapi/connection.html#delete,Connection,string	proc delete(conn: Connection; url: string): Future[JsonNode]		181
+nim	get	googleapi/connection.html#get,Connection,string	proc get(conn: Connection; url: string): Future[JsonNode]		130
+nim	post	googleapi/connection.html#post,Connection,string,JsonNode	proc post(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		143
+nim	patch	googleapi/connection.html#patch,Connection,string,JsonNode	proc patch(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		156
+nim	put	googleapi/connection.html#put,Connection,string,JsonNode	proc put(conn: Connection; url: string; body: JsonNode): Future[JsonNode]		169
+nim	delete	googleapi/connection.html#delete,Connection,string	proc delete(conn: Connection; url: string): Future[JsonNode]		182
 nimgrp	newconnection	googleapi/connection.html#newConnection-procs-all	proc		45
